@@ -18,7 +18,7 @@ import javax.crypto.Cipher;
 public final class RSAUtil {
 	private static String RSA = "RSA";
 
-	private static String PRIVATE_KEY = ReadXML.readvalue("PRIVATE_KEY");;
+	private static String PRIVATE_KEY = ReadXMLUtil.readvalue("PRIVATE_KEY");;
 
 	/**
 	 * 用私钥解密

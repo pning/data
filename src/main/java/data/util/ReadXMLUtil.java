@@ -8,7 +8,7 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
-public class ReadXML {
+public class ReadXMLUtil {
 	public static String readvalue(String name) {
 		String value = null;
 		File inputXml = new File("resource/main/java/parameter.xml");
