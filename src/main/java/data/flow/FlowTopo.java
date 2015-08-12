@@ -35,7 +35,7 @@ import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
 
-public class HDFSTopo {
+public class FlowTopo {
 
 	public static class Decryption extends BaseRichBolt {
 
@@ -97,7 +97,9 @@ public class HDFSTopo {
 		HdfsBolt bolt = new HdfsBolt().withFsUrl("hdfs://master:9000")
 				.withFileNameFormat(fileNameFormat).withRecordFormat(format)
 				.withRotationPolicy(rotationPolicy).withSyncPolicy(syncPolicy);
-
+		
+		// storm-hbase
+		
 		// config
 		TopologyBuilder builder = new TopologyBuilder();
 		builder.setSpout("hdfs-kafka", kafkaSpout, 5);
