@@ -31,8 +31,7 @@ public class ReadXML {
 		}
 		return value;
 	}
-
-	public static void main(String[] args) {
-		System.out.println(readvalue("PRIVATE_KEY"));
-	}
+	// public static void main(String[] args) {
+	// System.out.println(readvalue("PRIVATE_KEY"));
+	// }
 }
