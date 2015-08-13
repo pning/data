@@ -3,7 +3,7 @@ package data.util;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DateFormatUtil {
+public class DateFormat {
 	public static String dateformat(String s) {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("Jan", "01");

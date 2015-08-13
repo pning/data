@@ -3,7 +3,7 @@ package data.util;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LogUtil {
+public class LogSplit {
 	// app log split
 	public static String[] app(String log) {
 		String value[] = new String[8];
@@ -12,7 +12,7 @@ public class LogUtil {
 		Matcher m = p.matcher(log);
 		if (m.matches()) {
 			try {
-				value[0] = DateFormatUtil.dateformat(log.split(" ")[0]
+				value[0] = DateFormat.dateformat(log.split(" ")[0]
 						.substring(1));// time
 			} catch (Exception e) {
 				value[0] = "";

@@ -14,6 +14,7 @@ import org.apache.storm.hdfs.bolt.rotation.TimedRotationPolicy.TimeUnit;
 import org.apache.storm.hdfs.bolt.sync.CountSyncPolicy;
 import org.apache.storm.hdfs.bolt.sync.SyncPolicy;
 
+import data.util.Constants;
 import data.util.RSAUtil;
 import storm.kafka.BrokerHosts;
 import storm.kafka.KafkaSpout;
@@ -45,7 +46,6 @@ public class FlowTopo {
 		@SuppressWarnings("rawtypes")
 		public void prepare(Map stormConf, TopologyContext context,
 				OutputCollector collector) {
-			// TODO Auto-generated method stub
 			this.collector = collector;
 		}
 
@@ -61,17 +61,14 @@ public class FlowTopo {
 		}
 
 		public void declareOutputFields(OutputFieldsDeclarer declarer) {
-			// TODO Auto-generated method stub
 			declarer.declare(new Fields("line"));
-
 		}
-
 	}
 
 	public static void main(String[] args) throws AlreadyAliveException,
 			InvalidTopologyException, InterruptedException {
 		// storm-kafka
-		BrokerHosts zk = new ZkHosts("master:2181,node1:2181,node2:2181");
+		BrokerHosts zk = new ZkHosts(Constants.ZkHosts);
 		SpoutConfig kafkaConf = new SpoutConfig(zk, "test", "/storm-hdfs",
 				"hdfs");
 		kafkaConf.scheme = new SchemeAsMultiScheme(new StringScheme());
@@ -92,18 +89,20 @@ public class FlowTopo {
 		// Units.MB);
 		FileNameFormat fileNameFormat = new DefaultFileNameFormat().withPath(
 				"/foo/").withExtension(".log");
-		HdfsBolt bolt = new HdfsBolt().withFsUrl("hdfs://master:9000")
+		HdfsBolt bolt = new HdfsBolt().withFsUrl(Constants.HDFS_PATH)
 				.withFileNameFormat(fileNameFormat).withRecordFormat(format)
 				.withRotationPolicy(rotationPolicy).withSyncPolicy(syncPolicy);
 
 		// storm-hbase
-
+		
 		// config
 		TopologyBuilder builder = new TopologyBuilder();
 		builder.setSpout("hdfs-kafka", kafkaSpout, 5);
 		builder.setBolt("hdfs-dec", new Decryption(), 3).shuffleGrouping(
 				"hdfs-kafka");
-		builder.setBolt("hdfs", bolt, 2).shuffleGrouping("hdfs-dec");
+		// builder.setBolt("hdfs", bolt, 2).shuffleGrouping("hdfs-dec");
+		builder.setBolt("hbase", new HbaseFlowTopo(), 2).shuffleGrouping(
+				"hdfs-dec");
 
 		Config conf = new Config();
 		if (args != null && args.length > 0) {

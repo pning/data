@@ -16,9 +16,7 @@ import java.util.regex.Pattern;
 import javax.crypto.Cipher;
 
 public final class RSAUtil {
-	private static String RSA = "RSA";
-
-	private static String PRIVATE_KEY = ReadXMLUtil.readvalue("PRIVATE_KEY");;
+	private static String RSA = Constants.LOG_DEC_TYPE;
 
 	/**
 	 * 用私钥解密
@@ -50,6 +48,7 @@ public final class RSAUtil {
 	public static PrivateKey loadPrivateKey(String privateKeyStr)
 			throws Exception {
 		try {
+			@SuppressWarnings("restriction")
 			byte[] buffer = new sun.misc.BASE64Decoder()
 					.decodeBuffer(privateKeyStr);
 			// X509EncodedKeySpec keySpec = new X509EncodedKeySpec(buffer);
@@ -103,7 +102,6 @@ public final class RSAUtil {
 				sb.append('\r');
 			}
 		}
-
 		return sb.toString();
 	}
 
@@ -111,7 +109,10 @@ public final class RSAUtil {
 		String k[] = key.split("=");
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < k.length; i++) {
-			PrivateKey privateKey = loadPrivateKey(PRIVATE_KEY);
+			PrivateKey privateKey = loadPrivateKey(new PropConfig(
+					Constants.HBASE_PROP_CONF_FILE)
+					.getProperty("rsa.private_key"));
+			@SuppressWarnings("restriction")
 			byte[] decryptByte = decryptData(
 					new sun.misc.BASE64Decoder().decodeBuffer((k[i] + "=")
 							.replaceAll("-", "+").replaceAll("_", "/")),
@@ -138,7 +139,6 @@ public final class RSAUtil {
 							getValues(shuju.split("\\|\\|")[2]).replace("\"",
 									""));
 				} else {
-
 					data = log.replace(shuju.split("\\|\\|")[2],
 							shuju.split("\\|\\|")[2].replace("\\x22", ""));
 				}
