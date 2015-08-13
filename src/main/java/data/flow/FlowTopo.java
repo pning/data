@@ -47,7 +47,6 @@ public class FlowTopo {
 				OutputCollector collector) {
 			// TODO Auto-generated method stub
 			this.collector = collector;
-
 		}
 
 		public void execute(Tuple input) {
@@ -59,7 +58,6 @@ public class FlowTopo {
 				e.printStackTrace();
 			}
 			collector.ack(input);
-
 		}
 
 		public void declareOutputFields(OutputFieldsDeclarer declarer) {
@@ -97,9 +95,9 @@ public class FlowTopo {
 		HdfsBolt bolt = new HdfsBolt().withFsUrl("hdfs://master:9000")
 				.withFileNameFormat(fileNameFormat).withRecordFormat(format)
 				.withRotationPolicy(rotationPolicy).withSyncPolicy(syncPolicy);
-		
+
 		// storm-hbase
-		
+
 		// config
 		TopologyBuilder builder = new TopologyBuilder();
 		builder.setSpout("hdfs-kafka", kafkaSpout, 5);
