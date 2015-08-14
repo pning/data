@@ -1,4 +1,4 @@
-package mia;
+package data;
 
 public class Test {
 
