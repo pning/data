@@ -3,6 +3,8 @@ package data.flow;
 import java.util.Arrays;
 import java.util.Map;
 
+import org.apache.storm.hbase.bolt.mapper.HBaseProjectionCriteria;
+import org.apache.storm.hbase.bolt.mapper.SimpleHBaseMapper;
 import org.apache.storm.hdfs.bolt.HdfsBolt;
 import org.apache.storm.hdfs.bolt.format.DefaultFileNameFormat;
 import org.apache.storm.hdfs.bolt.format.DelimitedRecordFormat;
@@ -94,13 +96,13 @@ public class FlowTopo {
 				.withRotationPolicy(rotationPolicy).withSyncPolicy(syncPolicy);
 
 		// storm-hbase
-		
+
 		// config
 		TopologyBuilder builder = new TopologyBuilder();
 		builder.setSpout("hdfs-kafka", kafkaSpout, 5);
 		builder.setBolt("hdfs-dec", new Decryption(), 3).shuffleGrouping(
 				"hdfs-kafka");
-		// builder.setBolt("hdfs", bolt, 2).shuffleGrouping("hdfs-dec");
+		builder.setBolt("hdfs", bolt, 2).shuffleGrouping("hdfs-dec");
 		builder.setBolt("hbase", new HbaseFlowTopo(), 2).shuffleGrouping(
 				"hdfs-dec");
 
