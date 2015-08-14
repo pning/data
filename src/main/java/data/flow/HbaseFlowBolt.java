@@ -17,7 +17,7 @@ import backtype.storm.topology.OutputFieldsDeclarer;
 import backtype.storm.topology.base.BaseRichBolt;
 import backtype.storm.tuple.Tuple;
 
-public class HbaseFlowTopo extends BaseRichBolt {
+public class HbaseFlowBolt extends BaseRichBolt {
 
 	/**
 	 * storm to hbase bolt
@@ -30,8 +30,9 @@ public class HbaseFlowTopo extends BaseRichBolt {
 		public static Connection con;
 		static {
 			configuration = HBaseConfiguration.create();
-			configuration.set("hbase.zookeeper.property.clientPort", "2181");
-			configuration.set("hbase.zookeeper.quorum", "master,node1,node2");
+			//configuration.set("hbase.zookeeper.property.clientPort", "2181");
+			//configuration.set("hbase.zookeeper.quorum", "master,node1,node2");
+			configuration.addResource("hbase-site.xml");
 			try {
 				con = ConnectionFactory.createConnection(configuration);
 			} catch (IOException e) {

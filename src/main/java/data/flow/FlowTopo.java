@@ -1,7 +1,6 @@
 package data.flow;
 
 import java.util.Arrays;
-import java.util.Map;
 
 import org.apache.storm.hdfs.bolt.HdfsBolt;
 import org.apache.storm.hdfs.bolt.format.DefaultFileNameFormat;
@@ -15,7 +14,6 @@ import org.apache.storm.hdfs.bolt.sync.CountSyncPolicy;
 import org.apache.storm.hdfs.bolt.sync.SyncPolicy;
 
 import data.util.Constants;
-import data.util.RSAUtil;
 import storm.kafka.BrokerHosts;
 import storm.kafka.KafkaSpout;
 import storm.kafka.SpoutConfig;
@@ -27,50 +25,16 @@ import backtype.storm.StormSubmitter;
 import backtype.storm.generated.AlreadyAliveException;
 import backtype.storm.generated.InvalidTopologyException;
 import backtype.storm.spout.SchemeAsMultiScheme;
-import backtype.storm.task.OutputCollector;
-import backtype.storm.task.TopologyContext;
-import backtype.storm.topology.OutputFieldsDeclarer;
 import backtype.storm.topology.TopologyBuilder;
-import backtype.storm.topology.base.BaseRichBolt;
-import backtype.storm.tuple.Fields;
-import backtype.storm.tuple.Tuple;
-import backtype.storm.tuple.Values;
 
 public class FlowTopo {
-
-	public static class Decryption extends BaseRichBolt {
-
-		private static final long serialVersionUID = 1L;
-		private OutputCollector collector;
-
-		@SuppressWarnings("rawtypes")
-		public void prepare(Map stormConf, TopologyContext context,
-				OutputCollector collector) {
-			this.collector = collector;
-		}
-
-		public void execute(Tuple input) {
-			String line = input.getString(0);
-			try {
-				String log = RSAUtil.getLog(line);
-				collector.emit(input, new Values(log));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			collector.ack(input);
-		}
-
-		public void declareOutputFields(OutputFieldsDeclarer declarer) {
-			declarer.declare(new Fields("line"));
-		}
-	}
 
 	public static void main(String[] args) throws AlreadyAliveException,
 			InvalidTopologyException, InterruptedException {
 		// storm-kafka
 		BrokerHosts zk = new ZkHosts(Constants.ZkHosts);
-		SpoutConfig kafkaConf = new SpoutConfig(zk, "test", "/storm-hdfs",
-				"hdfs");
+		SpoutConfig kafkaConf = new SpoutConfig(zk, Constants.KAFKA_TOPIC,
+				Constants.KAFKA_ZKROOT, Constants.KAFKA_TOPIC_ID);
 		kafkaConf.scheme = new SchemeAsMultiScheme(new StringScheme());
 		kafkaConf.forceFromStart = false;
 		kafkaConf.zkServers = Arrays.asList(new String[] { "master", "node1",
@@ -82,7 +46,6 @@ public class FlowTopo {
 		RecordFormat format = new DelimitedRecordFormat()
 				.withFieldDelimiter("\t");
 		SyncPolicy syncPolicy = new CountSyncPolicy(1000);
-
 		FileRotationPolicy rotationPolicy = new TimedRotationPolicy(1.0f,
 				TimeUnit.HOURS);
 		// FileRotationPolicy rotationPolicy = new FileSizeRotationPolicy(10.0f,
@@ -98,10 +61,10 @@ public class FlowTopo {
 		// config
 		TopologyBuilder builder = new TopologyBuilder();
 		builder.setSpout("hdfs-kafka", kafkaSpout, 5);
-		builder.setBolt("hdfs-dec", new Decryption(), 3).shuffleGrouping(
+		builder.setBolt("hdfs-dec", new DecryptionBolt(), 3).shuffleGrouping(
 				"hdfs-kafka");
 		builder.setBolt("hdfs", bolt, 2).shuffleGrouping("hdfs-dec");
-		builder.setBolt("hbase", new HbaseFlowTopo(), 2).shuffleGrouping(
+		builder.setBolt("hbase", new HbaseFlowBolt(), 2).shuffleGrouping(
 				"hdfs-dec");
 
 		Config conf = new Config();
