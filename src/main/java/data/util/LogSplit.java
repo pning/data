@@ -67,8 +67,7 @@ public class LogSplit {
 				ip = shuju.split("\\|\\|")[6];
 			} catch (Exception e) {
 				ip = "";
-			}
-			// ip
+			}// ip
 
 			// set app bean
 			app.setChannel(channel);
