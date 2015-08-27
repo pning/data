@@ -192,13 +192,14 @@ public class LogSplit {
 		return null;
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 		// http://m.mia.com/download_h/2c001256000408003f99552cc97bec38e/?utm_source=bdwap&utm_medium=cpc&utm_campaign=baidu&src=Baidu&medium=PPC&Network=1&kw=19495608879&ad=7039380118&mt=2&ap=mt1&ag_kwid=2906-16-febdb78d040f4920.d7f58bff9ab63cb0_m
-		String log = "[28/Jul/2015:00:00:02 +0800] ||/banner/listsExt/||111||222||8A3E0B7F-6F37-41B4-B649-ECD361FFA321||ios_3_4_2||";
+		//String log = "[28/Jul/2015:00:00:02 +0800] ||/banner/listsExt/||111||222||8A3E0B7F-6F37-41B4-B649-ECD361FFA321||ios_3_4_2||";
 		// String log =
 		// "125.84.79.222 tj.miyabaobei.com 0.001 [14/Aug/2015:00:00:01 +0800] \"GET /_.gif?version=1.1&browser=other&browser_version=600.1.4&operation_system=mac&flash_version=false&java_enabled=false&language=zh-cn&screen_colors=32&screen_resolution=320*548&referrer=&tourl=http%3A%2F%2Fm.miyabaobei.com%2Fbigpic-1004406.html&title=%E8%9C%9C%E8%8A%BD%E8%A7%A6%E5%B1%8F%E7%89%88&siteform=11111111&miyaid=&cid=&rnd=1715840961 HTTP/1.1\" 200 43 \"http://m.miyabaobei.com/bigpic-1004406.html\" \"_adwb=151852645; _adwc=151852645; _adwp=151852645.7974216298.1439481602.1439481602.1439481602.1; _adwr=151852645%230; uidInfo=NTEyMjI2LTE4NDU4ODE%3D; miyauuid=92c45e50-4178-4867-afd7-946fb6f00bb9\" \"Mozilla/5.0 (iPhone; CPU iPhone OS 8_0 like Mac OSX) AppleWebKit/600.1.4 (KHTML, like Gecko) Mobile/12A365_miyabaobei_io_3.4.3\"";
-		if (app(log) != null) {
-			System.out.println(app(log).toString());
+		String log1 = "[17/Aug/2015:11:51:39 +0800] android||/wish/super/||kciZm8Fs-ryZHCKywotPwcswSOGT4GtvrB930zVs9Phun9lxDj8h1QTV5RveuTyM2Th4QHAAqR37cZQEbG5mr7iJwEgvTszOt9zkzaA6ywkYPYD7MK-eAHMTp2t0MZRqELah8XR0lWj0pMHqEHsFmN7kpRbC44E5DxT8HooCy38=||xiaomi||865002023014129||android_3_4_1||122.200.72.202";
+		if (app(RSAUtil.getLog(log1)) != null) {
+			System.out.println(app(RSAUtil.getLog(log1)).toString());
 
 		}
 	}

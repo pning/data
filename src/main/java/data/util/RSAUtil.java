@@ -45,12 +45,10 @@ public final class RSAUtil {
 	 * @return
 	 * @throws Exception
 	 */
-	public static PrivateKey loadPrivateKey(String privateKeyStr)
-			throws Exception {
+	public static PrivateKey loadPrivateKey(String privateKeyStr) throws Exception {
 		try {
 			@SuppressWarnings("restriction")
-			byte[] buffer = new sun.misc.BASE64Decoder()
-					.decodeBuffer(privateKeyStr);
+			byte[] buffer = new sun.misc.BASE64Decoder().decodeBuffer(privateKeyStr);
 			// X509EncodedKeySpec keySpec = new X509EncodedKeySpec(buffer);
 			PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(buffer);
 			KeyFactory keyFactory = KeyFactory.getInstance(RSA);
@@ -109,13 +107,11 @@ public final class RSAUtil {
 		String k[] = key.split("=");
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < k.length; i++) {
-			PrivateKey privateKey = loadPrivateKey(new PropConfig(
-					Constants.HBASE_PROP_CONF_FILE)
-					.getProperty("rsa.private_key"));
+			PrivateKey privateKey = loadPrivateKey(
+					new PropConfig(Constants.HBASE_PROP_CONF_FILE).getProperty("rsa.private_key"));
 			@SuppressWarnings("restriction")
 			byte[] decryptByte = decryptData(
-					new sun.misc.BASE64Decoder().decodeBuffer((k[i] + "=")
-							.replaceAll("-", "+").replaceAll("_", "/")),
+					new sun.misc.BASE64Decoder().decodeBuffer((k[i] + "=").replaceAll("-", "+").replaceAll("_", "/")),
 					privateKey);
 			String decryptStr = new String(decryptByte);
 			sb.append(decryptStr);
@@ -124,8 +120,7 @@ public final class RSAUtil {
 	}
 
 	public static String getLog(String log) throws Exception {
-		Pattern p = Pattern
-				.compile("^\\[.*\\|\\|.*\\|\\|.*\\|\\|.*\\|\\|.*\\|\\|.*\\|.*");
+		Pattern p = Pattern.compile("^\\[.*\\|\\|.*\\|\\|.*\\|\\|.*\\|\\|.*\\|\\|.*\\|.*");
 		Matcher m = p.matcher(log);
 		String shuju = null;
 		String data = null;
@@ -134,13 +129,9 @@ public final class RSAUtil {
 			String vr[] = shuju.split("\\|\\|")[5].split("_");
 			try {
 				if (new Integer(vr[1]) >= 3 && new Integer(vr[2]) >= 4) {
-					data = log.replace(
-							shuju.split("\\|\\|")[2],
-							getValues(shuju.split("\\|\\|")[2]).replace("\"",
-									""));
+					data = log.replace(shuju.split("\\|\\|")[2], getValues(shuju.split("\\|\\|")[2]).replace("\"", ""));
 				} else {
-					data = log.replace(shuju.split("\\|\\|")[2],
-							shuju.split("\\|\\|")[2].replace("\\x22", ""));
+					data = log.replace(shuju.split("\\|\\|")[2], shuju.split("\\|\\|")[2].replace("\\x22", ""));
 				}
 			} catch (Exception e) {
 				data = log;
@@ -151,14 +142,10 @@ public final class RSAUtil {
 		return data;
 	}
 
-	// public static void main(String[] args) throws Exception {
-	// String log =
-	// "[28/Jul/2015:00:00:02 +0800] ios||/banner/listsExt/||EijKNAaZDYUKzkcFh_iRQSsiMpbpXGa-KQWQ1LSWqGzzEvhuZ-VGBO7RLvYAr-qr11O_Vutxyaw3mKbEtoV5bvFOnmzSJrrAJoBC2s7sLeOdSOTcUj91FiVgpZF2uXc3qKTciIewHJY7RUeHlW84HEq3AhTjTsW9sHoDeoPtes8=||iosOfficial||8A3E0B7F-6F37-41B4-B649-ECD361FFA321||ios_3_4_2||121.224.189.138";
-	// String log1 =
-	// "[28/Jul/2015:00:00:02 +0800] ios||/topcart/count/||||iosOfficial||0756E9CE-89B5-4999-8581-621E4D615862||ios_3_4_2||36.33.98.112";
-	// String log2 =
-	// "[28/Jul/2015:00:00:02 +0800] ios||/collect/getLists||{\\x22type\\x22:1,\\x22count\\x22:10,\\x22page\\x22:3}||iosOfficial||5FED9703-ED20-43F7-9C51-EF41161588FD||ios_3_3_3||43.224.52.0";
-	// System.out.println(getLog(log));
-	// }
-
+	public static void main(String[] args) throws Exception {
+		String log = "[25/Aug/2015:21:58:24 +0800] android||/lists/index/||BShbNHzZVDDBg7ePI0qVL_Q92dOteTmGPoU6cLRMigGS2RyUzg0T2uGNHSJbAlt9JZ9ijZi4H7VMjZq284RJEkSJmDxL8ht714h2zqVTc1qGhr3UjEpZDqv9SJ6fhcQ8sqe7hpxID9W8q28yElVKB91zwCkaXgef7efzSZ5o868=||xiaomi||865002023014129||android_3_4_1||114.242.248.86";
+		String log1 = "[28/Jul/2015:00:00:02 +0800] ios||/topcart/count/||||iosOfficial||0756E9CE-89B5-4999-8581-621E4D615862||ios_3_4_2||36.33.98.112";
+		String log2 = "[28/Jul/2015:00:00:02 +0800] ios||/collect/getLists||{\\x22type\\x22:1,\\x22count\\x22:10,\\x22page\\x22:3}||iosOfficial||5FED9703-ED20-43F7-9C51-EF41161588FD||ios_3_3_3||43.224.52.0";
+		System.out.println(getLog(log));
+	}
 }
