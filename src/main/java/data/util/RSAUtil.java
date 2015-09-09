@@ -142,10 +142,9 @@ public final class RSAUtil {
 		return data;
 	}
 
-	public static void main(String[] args) throws Exception {
-		String log = "[25/Aug/2015:21:58:24 +0800] android||/lists/index/||BShbNHzZVDDBg7ePI0qVL_Q92dOteTmGPoU6cLRMigGS2RyUzg0T2uGNHSJbAlt9JZ9ijZi4H7VMjZq284RJEkSJmDxL8ht714h2zqVTc1qGhr3UjEpZDqv9SJ6fhcQ8sqe7hpxID9W8q28yElVKB91zwCkaXgef7efzSZ5o868=||xiaomi||865002023014129||android_3_4_1||114.242.248.86";
-		String log1 = "[28/Jul/2015:00:00:02 +0800] ios||/topcart/count/||||iosOfficial||0756E9CE-89B5-4999-8581-621E4D615862||ios_3_4_2||36.33.98.112";
-		String log2 = "[28/Jul/2015:00:00:02 +0800] ios||/collect/getLists||{\\x22type\\x22:1,\\x22count\\x22:10,\\x22page\\x22:3}||iosOfficial||5FED9703-ED20-43F7-9C51-EF41161588FD||ios_3_3_3||43.224.52.0";
-		System.out.println(getLog(log));
-	}
+	// public static void main(String[] args) throws Exception {
+	// String log = "[08/Sep/2015:16:57:51 +0800]
+	// android||/index/switchBar/||Rj5IpNMN-75vyngq4Q4QLPYpvqHSjHsYzt6s17yDAhBH3HHkvfRHrhWuqdld1RvXm_UIZrav02bKZTdhtpgSbDYB30Q7ti5KHvLv-n8fl3aBg6T0Kb23uM-ykIFFTsbMjSTlzbzXSaIif23gba4ouYqidYgZIGOuQpPxGZsjU_0=||mei-zu||865479028548964||android_3_5_0||60.215.95.80";
+	// System.out.println(getLog(log));
+	// }
 }

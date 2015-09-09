@@ -12,9 +12,18 @@ public class WebBean {
 	private String uidInfo;
 	private String tourl;
 	private String referrer;
+	private String type;
 
 	public WebBean() {
 		super();
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public String getIp() {
@@ -107,10 +116,7 @@ public class WebBean {
 
 	@Override
 	public String toString() {
-		return "WebBean [ip=" + ip + ", time=" + time + ", url=" + url
-				+ ", code=" + code + ", parameter=" + parameter
-				+ ", useragent=" + useragent + ", sitefrom=" + sitefrom
-				+ ", miyauuid=" + miyauuid + ", uidInfo=" + uidInfo
-				+ ", tourl=" + tourl + ", referrer=" + referrer + "]";
+		return ip + "\t" + time + "\t" + url + "\t" + code + "\t" + parameter + "\t" + useragent + "\t" + sitefrom
+				+ "\t" + miyauuid + "\t" + uidInfo + "\t" + tourl + "\t" + referrer + "\t" + type;
 	}
 }

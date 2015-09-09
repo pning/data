@@ -80,9 +80,7 @@ public class AppBean {
 
 	@Override
 	public String toString() {
-		return "AppBean [time=" + time + ", sys_type=" + sys_type + ", url="
-				+ url + ", version=" + version + ", parameter=" + parameter
-				+ ", channel=" + channel + ", IMEI=" + IMEI + ", ip=" + ip
-				+ "]";
+		return time + "\t" + sys_type + "\t" + url + "\t" + version + "\t" + parameter + "\t" + channel + "\t" + IMEI
+				+ "\t" + ip;
 	}
 }
